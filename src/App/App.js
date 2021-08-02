@@ -34,22 +34,22 @@ export default class App extends Component {
         }))
     }
 
-    handlerOfAll = (id)=>{
-        id=this.options.find(i=>i.id===id).title
-        if(id===undefined) throw Error("Incorrect option ID")
-        const handler = ()=>{
-            this.setState(prev=>{
-                prev[id]++
-                this.total=0
-                Object.values(prev).forEach(i=>{this.total+=i})
-                prev.good===0?
-                this.positivePercentage=0:
-                this.positivePercentage=(prev.good*100/this.total)
-                return prev
-            })
+    handlerOfAll = (e)=>{
+        const id=this.options.find(i=>i.id===e.target.id).title
+
+        const logic=(state)=>{
+            this.total=0
+            Object.values(state).forEach(i=>{this.total+=i})
+            state.good===0?
+            this.positivePercentage=0:
+            this.positivePercentage=(state.good*100/this.total)
         }
 
-        return handler
+        this.setState(p=>{
+            p[id]++
+            logic(p)
+            return p
+        })
         
     }
 

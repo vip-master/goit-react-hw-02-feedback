@@ -12,7 +12,7 @@ function FeedbackOptions({options, onLeaveFeedback}) {
         <StyledList>
             {options.map(option=>(
                 <li key={option.id}>
-                    <button type="button" onClick={onLeaveFeedback(option.id)}>{option.title}</button>
+                    <button type="button" id={option.id} onClick={onLeaveFeedback}>{option.title}</button>
                 </li>
             ))}
         </StyledList>
