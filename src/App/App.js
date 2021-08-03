@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import Section from '../Components/section/Section'
 import Statistics from '../Components/statistics/Statistics';
 import Notification from '../Components/notification/Notification';
@@ -23,48 +22,37 @@ export default class App extends Component {
 
     options=[]
 
-    total=0
-
-    positivePercentage=0
-
     createOptions(){
-        return Object.keys(this.state).map(option=>({
-            title: option,
-            id: uuidv4()
-        }))
+        return Object.keys(this.state)
     }
 
     handlerOfAll = (e)=>{
-        const id=this.options.find(i=>i.id===e.target.id).title
-
-        const logic=(state)=>{
-            this.total=0
-            Object.values(state).forEach(i=>{this.total+=i})
-            state.good===0?
-            this.positivePercentage=0:
-            this.positivePercentage=(state.good*100/this.total)
-        }
-
-        this.setState(p=>{
-            p[id]++
-            logic(p)
-            return p
-        })
+        this.setState(p=>({[e.target.id]:p[e.target.id]+1}))
         
     }
 
-    render() {
+    render() {    	
+
+       	let total=0
+       	let positivePercentage=0
+
+        this.options.map(o=>total+=this.state[o])
+
+        this.state.good===0?
+        positivePercentage=0:
+        positivePercentage=(this.state.good*100/total)
+        
         return (
             <>
                <Section title="Buttons to vote (10$ per one, ask Mr. Burke)">
                     <FeedbackOptions options={this.options} onLeaveFeedback={this.handlerOfAll}/>
                </Section>
                <Section title="Incorruptible votes: ">
-                    {this.total===0 ?
+                    {total===0 ?
                     <Notification/>:
                     <Statistics {...this.state} 
-                    total={this.total} 
-                    positivePercentage={this.positivePercentage}/>}
+                    total={total} 
+                    positivePercentage={positivePercentage}/>}
                </Section>
             </>
         )

@@ -11,8 +11,8 @@ function FeedbackOptions({options, onLeaveFeedback}) {
     return (
         <StyledList>
             {options.map(option=>(
-                <li key={option.id}>
-                    <button type="button" id={option.id} onClick={onLeaveFeedback}>{option.title}</button>
+                <li key={option}>
+                    <button type="button" id={option} onClick={onLeaveFeedback}>{option}</button>
                 </li>
             ))}
         </StyledList>
@@ -20,10 +20,7 @@ function FeedbackOptions({options, onLeaveFeedback}) {
 }
 
 FeedbackOptions.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired
-    })).isRequired,
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLeaveFeedback: PropTypes.func.isRequired,
 }
 
