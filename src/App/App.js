@@ -11,14 +11,12 @@ export default class App extends Component {
         super()
         this.options=this.createOptions()
     }
-
-    _ADAM_STATE_={
+    
+    state={
         good: 0,
         neutral: 0,
         bad: 0
-    }
-    
-    state={...this._ADAM_STATE_};
+    };
 
     options=[]
 
@@ -31,17 +29,26 @@ export default class App extends Component {
         
     }
 
-    render() {    	
+    calculateStats=()=>{      
 
-       	let total=0
-       	let positivePercentage=0
+        let total=0
+        let positivePercentage=0
 
         this.options.map(o=>total+=this.state[o])
 
         this.state.good===0?
         positivePercentage=0:
         positivePercentage=(this.state.good*100/total)
-        
+
+        positivePercentage=Math.round(positivePercentage*100)/100
+
+        return {total,positivePercentage}
+    }
+
+    render() {    	
+
+        const {total,positivePercentage}=this.calculateStats()
+
         return (
             <>
                <Section title="Buttons to vote (10$ per one, ask Mr. Burke)">
